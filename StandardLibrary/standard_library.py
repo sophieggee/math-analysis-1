@@ -4,8 +4,11 @@
 <MATH 345>
 <09/07/21>
 """
+from box import isvalid, parse_input
 import calculator
 from itertools import combinations
+from random import randint
+from time import time
 
 # Problem 1
 def prob1(L):
@@ -55,8 +58,6 @@ def prob2():
            f"list is mutable: {list_bool}", f"tuple is mutable: {tuple_bool}",
            f"set is mutable: {set_bool}")
 
-print(prob2())
-
 
 # Problem 3
 def hypot(a, b):
@@ -94,3 +95,63 @@ def power_set(A):
 # Problem 5: Implement shut the box.
 def shut_the_box(player, timelimit):
     """Play a single game of shut the box."""
+    list_of_nine= [1,2,3,4,5,6,7,8,9]
+    time_remaining = timelimit
+    start = time()
+    while int(sum(list_of_nine)) > 6 and int(time_remaining) > 0:
+        dice_roll = randint(1,6) + randint(1,6)
+        print(f"Numbers left: {list_of_nine}")
+        print(f"Roll: {dice_roll}")
+
+        if isvalid(dice_roll, list_of_nine):
+            time_now = time()
+            time_since_start = time_now - start
+            time_remaining = int(timelimit) - round(time_since_start, 2)
+
+
+            print(f"Seconds left: {round(time_remaining, 2)}")
+            player_choice = input("Numbers to eliminate: ")
+
+            numbers_to_eliminate = parse_input(player_choice, list_of_nine)
+            if sum(numbers_to_eliminate) == dice_roll:
+                list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate]
+            else:
+                print("Invalid Input")
+                break
+        else:
+            print("Game over!")
+            break
+    
+    while int(sum(list_of_nine)) < 7 and int(time_remaining) > 0:
+        dice_roll = randint(1,6)
+        print(f"Numbers left: {list_of_nine}")
+        print(f"Roll: {dice_roll}")
+
+        if isvalid(dice_roll, list_of_nine):
+            time_now = time()
+            time_since_start = time_now - start
+            time_remaining = int(timelimit) - round(time_since_start, 2)
+
+            print(f"Seconds left: {round(time_remaining, 2)}")
+            player_choice = input("Numbers to eliminate: ")
+
+            numbers_to_eliminate = parse_input(player_choice, list_of_nine)
+            if sum(numbers_to_eliminate) == dice_roll:
+                list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate]
+            else:
+                print("Invalid Input")
+                break
+        else:
+            print("Game over!")
+            break
+
+    print(f"Score for player {player}: {sum(list_of_nine)} points")
+    print(f"Time played: {round(time_since_start, 2)} seconds")
+    
+    if int(sum(list_of_nine)) > 0:
+        print("Better luck next time >:)")
+    else:
+        print("Congratulations!! You shut the box!")
+        
+    
+shut_the_box(input("player name:"), input("timelimit:"))
