@@ -95,15 +95,15 @@ def power_set(A):
 # Problem 5: Implement shut the box.
 def shut_the_box(player, timelimit):
     """Play a single game of shut the box."""
-    list_of_nine= [1,2,3,4,5,6,7,8,9]
-    time_remaining = timelimit
-    start = time()
-    while int(sum(list_of_nine)) > 6 and int(time_remaining) > 0:
+    list_of_nine= [1,2,3,4,5,6,7,8,9] #create the list of integers
+    time_remaining = timelimit #set the limit as inputted
+    start = time() #start taking track of time
+    while int(sum(list_of_nine)) > 6 and int(time_remaining) > 0: #iterates through while the remaining list can be achieved through 2 dice rolls
         dice_roll = randint(1,6) + randint(1,6)
         print(f"Numbers left: {list_of_nine}")
         print(f"Roll: {dice_roll}")
 
-        if isvalid(dice_roll, list_of_nine):
+        if isvalid(dice_roll, list_of_nine): #checks if valid remaining numbers, uses imported funct
             time_now = time()
             time_since_start = time_now - start
             time_remaining = int(timelimit) - round(time_since_start, 2)
@@ -112,11 +112,9 @@ def shut_the_box(player, timelimit):
             print(f"Seconds left: {round(time_remaining, 2)}")
             player_choice = input("Numbers to eliminate: ")
 
-            numbers_to_eliminate = parse_input(player_choice, list_of_nine)
-            # print("NUMS to Eliminate " + str(numbers_to_eliminate) + str(dice_roll))
+            numbers_to_eliminate = parse_input(player_choice, list_of_nine) #checks player input to see if valid, uses imported funct
             if sum(numbers_to_eliminate) == dice_roll:
-                # print("DEBUG1: " + str(sum(list_of_nine)))
-                list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate]
+                list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate] #removes inputted integers from remaining numbers
             else:
                 print("Invalid Input")
                 break
@@ -124,12 +122,12 @@ def shut_the_box(player, timelimit):
             print("Game over!")
             break
     
-    while int(sum(list_of_nine)) < 7 and int(time_remaining) > 0:
+    while int(sum(list_of_nine)) < 7 and int(time_remaining) > 0: #iterates through while the remaining list can be achieved through only 1 dice rolls
         dice_roll = randint(1,6)
         print(f"Numbers left: {list_of_nine}")
         print(f"Roll: {dice_roll}")
 
-        if isvalid(dice_roll, list_of_nine):
+        if isvalid(dice_roll, list_of_nine): #checks if valid remaining numbers, uses imported funct
             time_now = time()
             time_since_start = time_now - start
             time_remaining = int(timelimit) - round(time_since_start, 2)
@@ -137,9 +135,9 @@ def shut_the_box(player, timelimit):
             print(f"Seconds left: {round(time_remaining, 2)}")
             player_choice = input("Numbers to eliminate: ")
 
-            numbers_to_eliminate = parse_input(player_choice, list_of_nine)
+            numbers_to_eliminate = parse_input(player_choice, list_of_nine) #checks player input to see if valid, uses imported funct
             if sum(numbers_to_eliminate) == dice_roll:
-                list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate]
+                list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate] #removes inputted integers from remaining numbers
             else:
                 print("Invalid Input")
                 break
@@ -150,7 +148,6 @@ def shut_the_box(player, timelimit):
     print(f"Score for player {player}: {sum(list_of_nine)} points")
     print(f"Time played: {round(time_since_start, 2)} seconds")
     
-    # print("DEBUG: " + str(sum(list_of_nine)))
     if int(sum(list_of_nine)) > 0:
         print("Better luck next time >:)")
     else:
