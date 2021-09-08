@@ -113,7 +113,9 @@ def shut_the_box(player, timelimit):
             player_choice = input("Numbers to eliminate: ")
 
             numbers_to_eliminate = parse_input(player_choice, list_of_nine)
+            # print("NUMS to Eliminate " + str(numbers_to_eliminate) + str(dice_roll))
             if sum(numbers_to_eliminate) == dice_roll:
+                # print("DEBUG1: " + str(sum(list_of_nine)))
                 list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate]
             else:
                 print("Invalid Input")
@@ -148,10 +150,9 @@ def shut_the_box(player, timelimit):
     print(f"Score for player {player}: {sum(list_of_nine)} points")
     print(f"Time played: {round(time_since_start, 2)} seconds")
     
+    # print("DEBUG: " + str(sum(list_of_nine)))
     if int(sum(list_of_nine)) > 0:
         print("Better luck next time >:)")
     else:
         print("Congratulations!! You shut the box!")
         
-    
-shut_the_box(input("player name:"), input("timelimit:"))
