@@ -9,6 +9,7 @@ import calculator
 from itertools import combinations
 from random import randint
 from time import time
+import sys
 
 # Problem 1
 
@@ -101,8 +102,6 @@ def power_set(A):
       list_of_sets.extend(list(combinations(A, i)))
   return [set(x) for x in list_of_sets]
     
-#print(power_set("abc"))
-#print(len(power_set("abc")))
     # Problem 5: Implement shut the box.
 def shut_the_box(player, timelimit):
     """Play a single game of shut the box."""
@@ -163,4 +162,8 @@ def shut_the_box(player, timelimit):
         print("Better luck next time >:)")
     else:
         print("Congratulations!! You shut the box!")
+
+if __name__ == '__main__':
+    if len(sys.argv) == 3:
+        shut_the_box(sys.argv[1], sys.argv[2])
         
