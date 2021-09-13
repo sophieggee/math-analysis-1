@@ -33,3 +33,44 @@ Comments:
 
 -------------------------------------------------------------------------------
 
+09/09/21 18:37
+
+Problem 1 (5 points):
+Score += 5
+
+Problem 2 (5 points):
+Score += 5
+
+Problem 3 (5 points):
+Random/ is not renamed to Files/
+Documents does not exist
+Photos does not exist
+Python does not exist
+Score += 1
+
+Problem 4 (10 points):
+.txt files not moved to Documents/
+.py files not moved to Python/
+.jpg files not moved to Photos/
+Score += 1
+
+Problem 5 (10 points):
+'organize_scripts.sh' not in correct directory
+'organize_photos.sh' was not executed
+Score += 0
+
+Problem 6 (10 points):
+File 'img_649.jpg' not found
+Score += 0
+
+Problem 7 (5 points):
+Score += 5
+
+Total score: 17/50 = 34.0%
+
+
+Comments:
+	We'll fix it! Don't worry
+
+-------------------------------------------------------------------------------
+
