@@ -50,8 +50,11 @@ def prob2():
     y_cos = np.cos(x)
     y_arctan = np.arctan(x)
     plt.plot(x,y_sin) #plotting sin
+    plt.show()
     plt.plot(x,y_cos) #plotting cos
+    plt.show()
     plt.plot(x,y_arctan) #plotting arctan
+    plt.show()
 
 
 # Problem 3
@@ -62,13 +65,13 @@ def prob3():
         3. Set the range of the x-axis to [-2,6] and the range of the
            y-axis to [-6,6].
     """
-    x1 = np.linspace(-2,1,100, endpoint=False) #?????
-    y1 = 1/(x1-1)
-    plt.plot(x1,y1, 'm--', linewidth=4)
-    x2 = np.linspace(1.01,6,100) #????
-    y2 = 1/(x2-1)
-    plt.plot(x2,y2, 'm--', linewidth=4)
-    plt.xlim(-2,6)
+    x1 = np.linspace(-2,1,100, endpoint=False) #creating a domain with an asymptot at 1
+    y1 = 1/(x1-1) #plugging in x to the function
+    plt.plot(x1,y1, 'm--', linewidth=4) #plotting line with visual specifications 
+    x2 = np.linspace(1.00001,6,100) #creating a domain with an asymptot at 1
+    y2 = 1/(x2-1) #plugging in x to the function
+    plt.plot(x2,y2, 'm--', linewidth=4) #plotting line with visual specifications 
+    plt.xlim(-2,6) #setting limits
     plt.ylim(-6,6)
     plt.show()
 
@@ -127,8 +130,22 @@ def prob5():
         2. A histogram of the hours of the day, with one bin per hour.
             Label and set the limits of the x-axis.
     """
-    car_crash_data = np.load('FARS.npy')
+    car_crash_data = np.load('FARS.npy') #loading in data
+    hours = car_crash_data[:,0] 
+    longitude = car_crash_data[:,1]
+    latitude = car_crash_data[:,2]
 
+    plt.plot(longitude,latitude, 'k,') #plotting the longitude against latitude for car crashes-
+    plt.axis("equal") #setting the axes as scaled equal
+    plt.xlabel('Longitude of Crash') #labeling the axes
+    plt.ylabel('Latitude of Crash')
+    plt.show()
+
+    plt.hist(hours, bins=24, range=[0, 24]) #plotting a histogram with hours as bins
+    plt.xlabel('Hour of Crash') #labeling the axes
+    plt.ylabel('Number of Crashes Countrywide')
+    plt.xlim(0,24)
+    plt.show()
 
 # Problem 6
 def prob6():
@@ -141,4 +158,23 @@ def prob6():
         3. Choose a non-default color scheme.
         4. Add a colorbar to each subplot.
     """
-    raise NotImplementedError("Problem 6 Incomplete")
+    neg_2_pi = -2*np.pi
+    pos_2_pi = 2*np.pi
+    x = np.linspace(neg_2_pi, pos_2_pi, 100) #setting x range
+    y = x.copy() #setting y range
+    X, Y = np.meshgrid(x, y) #create matrix
+    G = np.sin(X)*np.sin(Y)/(X*Y) #operate on matrix
+
+    plt.subplot(121) #create heat map
+    plt.pcolormesh(X, Y, G, cmap="Pastel1")
+    plt.colorbar() #include colorbar
+    plt.xlim(neg_2_pi, pos_2_pi)
+    plt.ylim(neg_2_pi, pos_2_pi)
+
+    plt.subplot(122) #create contour map
+    plt.contour(X, Y, G, 100, cmap="RdPu")
+    plt.colorbar() #include colorbar
+    plt.xlim(neg_2_pi, pos_2_pi)
+    plt.ylim(neg_2_pi, pos_2_pi)
+
+    plt.show()
