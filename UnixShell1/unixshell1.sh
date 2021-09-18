@@ -13,24 +13,6 @@ echo "Unzipping Shell1.zip..."
 unzip -q Shell1
 echo "Done"
 
-# remove any old copies of UnixShell1.tar.gz
-if [ ! -d Shell1 ];
-then
-  cd ..
-fi
-
-if [ -f UnixShell1.tar.gz ];
-then
-  echo "Removing old copies of UnixShell1.tar.gz..."
-  rm -v UnixShell1.tar.gz
-  echo "Done"
-fi
-
-# archive and compress the Shell1/ directory
-echo "Compressing Shell1/ Directory..."
-tar -zcpf UnixShell1.tar.gz Shell1/*
-echo "Done"
-
 : ' Problem 1: In the space below, write commands to change into the
 Shell1/ directory and print a string telling you the current working
 directory. '
@@ -75,3 +57,22 @@ sure to leave a copy of the file in UnixShell1/.'
 cd ..
 cp img_649.jpg Shell1/Photos/
 cd Shell1/
+
+
+# remove any old copies of UnixShell1.tar.gz
+if [ ! -d Shell1 ];
+then
+  cd ..
+fi
+
+if [ -f UnixShell1.tar.gz ];
+then
+  echo "Removing old copies of UnixShell1.tar.gz..."
+  rm -v UnixShell1.tar.gz
+  echo "Done"
+fi
+
+# archive and compress the Shell1/ directory
+echo "Compressing Shell1/ Directory..."
+tar -zcpf UnixShell1.tar.gz Shell1/*
+echo "Done"
