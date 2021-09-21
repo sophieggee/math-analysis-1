@@ -1,11 +1,13 @@
 # linear_transformations.py
 """Volume 1: Linear Transformations.
-<Name>
-<Class>
-<Date>
+<Sophie Gee>
+<Vol 1 Lab section 3>
+<09/21/21>
 """
-
+import numpy as np
 from random import random
+from matplotlib import pyplot as plt
+import time 
 
 
 # Problem 1
@@ -18,7 +20,8 @@ def stretch(A, a, b):
         a (float): scaling factor in the x direction.
         b (float): scaling factor in the y direction.
     """
-    raise NotImplementedError("Problem 1 Incomplete")
+    streth_matrix=np.array([[a,0],[0,b]])
+    return (streth_matrix@A)
 
 def shear(A, a, b):
     """Slant the points in A by a in the x direction and b in the
@@ -29,7 +32,8 @@ def shear(A, a, b):
         a (float): scaling factor in the x direction.
         b (float): scaling factor in the y direction.
     """
-    raise NotImplementedError("Problem 1 Incomplete")
+    shear_matrix = np.array([[1,a],[b,1]])
+    return np.matmul(shear_matrix, A)
 
 def reflect(A, a, b):
     """Reflect the points in A about the line that passes through the origin
@@ -40,7 +44,10 @@ def reflect(A, a, b):
         a (float): x-coordinate of a point on the reflecting line.
         b (float): y-coordinate of the same point on the reflecting line.
     """
-    raise NotImplementedError("Problem 1 Incomplete")
+    outside_constant = (1/(a**2+b**2))
+    base_matrix = np.array([[a**2-b**2, 2*a*b],[2*a*b, b**2-a**2]])
+    reflect_matrix = outside_constant*base_matrix
+    return np.matmul(reflect_matrix, A)
 
 def rotate(A, theta):
     """Rotate the points in A about the origin by theta radians.
@@ -49,11 +56,11 @@ def rotate(A, theta):
         A ((2,n) ndarray): Array containing points in R2 stored as columns.
         theta (float): The rotation angle in radians.
     """
-    raise NotImplementedError("Problem 1 Incomplete")
-
+    rotate_matrix = np.array([[np.cos(theta), -np.sin(theta)],[np.sin(theta), np.cos(theta)]])
+    return np.matmul(rotate_matrix,A)
 
 # Problem 2
-def solar_system(T, omega_e, omega_m):
+def solar_system(T, x_e, x_m, omega_e, omega_m):
     """Plot the trajectories of the earth and moon over the time interval [0,T]
     assuming the initial position of the earth is (x_e,0) and the initial
     position of the moon is (x_m,0).
@@ -65,7 +72,20 @@ def solar_system(T, omega_e, omega_m):
         omega_e (float): The earth's angular velocity.
         omega_m (float): The moon's angular velocity.
     """
-    raise NotImplementedError("Problem 2 Incomplete")
+    initial_pe = [x_e, 0]
+    t=np.linspace(0,T,200)
+    P_E = np.vstack([rotate(initial_pe, omega_e*i) for i in t])
+    print(P_E)
+    vector_of_moon = [x_e-x_m, 0]
+    P_M = np.vstack([rotate(vector_of_moon, omega_m*i) for i in t])
+    P_of_M = P_M+P_E
+    P_of_M = P_of_M.T
+    plt.plot(P_E[:,0], P_E[:,1], label="Earth")
+    plt.plot(P_of_M[0], P_of_M[1], label="Moon")
+    plt.gca().set_aspect("equal")
+    plt.legend()
+    plt.show()
+
 
 
 def random_vector(n):
@@ -101,7 +121,34 @@ def prob3():
     that your figure accurately describes the growth, but avoid values of n
     that lead to execution times of more than 1 minute.
     """
-    raise NotImplementedError("Problem 3 Incomplete")
+
+    domain = 2**np.arange(1,9)
+    times = []
+    for n in domain:
+        A = random_matrix(n)
+        x = random_vector(n)
+        start = time.time()
+        matrix_vector_product(A,x)
+        times.append(time.time() - start)
+    ax1 = plt.subplot(121)
+    ax1.plot(domain, times, '.-', linewidth=2, markersize=15)
+    ax1.set_title("Matrix-Vector Multiplication")
+    ax1.set_xlabel("n", fontsize=14)
+    ax1.set_ylabel("Seconds", fontsize=14)
+    times2=[]
+    for n in domain:
+        A = random_matrix(n)
+        B = random_matrix(n)
+        start = time.time()
+        matrix_matrix_product(A,B)
+        times2.append(time.time() - start)
+    ax2 = plt.subplot(122)
+    ax2.plot(domain, times2, 'g.-', linewidth=2, markersize=15)
+    ax2.set_title("Matrix-Matrix Multiplication")
+    ax2.set_xlabel("n", fontsize=14)
+    ax2.set_ylabel("Seconds", fontsize=14)
+    plt.show()
+
 
 
 # Problem 4
@@ -112,4 +159,51 @@ def prob4():
     four sets of execution times on a regular linear scale, and one with all
     four sets of exections times on a log-log scale.
     """
-    raise NotImplementedError("Problem 4 Incomplete")
+    domain = 2**np.arange(1,9)
+    times = []
+    for n in domain:
+        A = random_matrix(n)
+        x = random_vector(n)
+        start = time.time()
+        matrix_vector_product(A,x)
+        times.append(time.time() - start)
+    times_1 = []
+    for n in domain:
+        A = random_matrix(n)
+        B = random_matrix(n)
+        start = time.time()
+        matrix_matrix_product(A,B)
+        times_1.append(time.time() - start)
+    times_2=[]
+    for n in domain:
+        A = random_matrix(n)
+        x = random_vector(n)
+        start = time.time()
+        np.dot(A,x)
+        times_2.append(time.time() - start)
+    times2=[]
+    for n in domain:
+        A = random_matrix(n)
+        B = random_matrix(n)
+        start = time.time()
+        np.dot(A,B)
+        times2.append(time.time() - start)
+    ax1 = plt.subplot(121)
+    ax1.plot(domain, times, '.-', linewidth=2, markersize=15, label="Matrix-Vector by Hand")
+    ax1.plot(domain, times_1, '.-', linewidth=2, markersize=15, label="Matrix-Matrix by Hand")
+    ax1.plot(domain, times_2, '.-', linewidth=2, markersize=15, label="Matrix-Vector Numpy")
+    ax1.plot(domain, times2, '.-', linewidth=2, markersize=15, label="Matrix-Matrix Numpy")
+    ax1.set_xlabel("n", fontsize=14)
+    ax1.set_ylabel("Seconds", fontsize=14)
+    ax1.legend()
+    ax2 = plt.subplot(122)
+    ax2.loglog(domain, times, '.-', basex=2, basey=2, lw=2)
+    ax2.loglog(domain, times_1, '.-', basex=2, basey=2, lw=2)
+    ax2.loglog(domain, times_2, '.-', basex=2, basey=2, lw=2)
+    ax2.loglog(domain, times2, '.-', basex=2, basey=2, lw=2)
+    ax2.set_xlabel("n", fontsize=14)
+    ax2.set_ylabel("Seconds", fontsize=14)
+    plt.show()
+
+if __name__ == "__main__":
+    prob4()
