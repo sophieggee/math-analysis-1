@@ -123,11 +123,11 @@ def shut_the_box(player, timelimit):
             player_choice = input("Numbers to eliminate: ")
 
             numbers_to_eliminate = parse_input(player_choice, list_of_nine) #checks player input to see if valid, uses imported funct
-            if sum(numbers_to_eliminate) == dice_roll:
-                list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate] #removes inputted integers from remaining numbers
-            else:
+            if numbers_to_eliminate == []:
                 print("Invalid Input")
                 break
+            elif sum(numbers_to_eliminate) == dice_roll:
+                list_of_nine = [x for x in list_of_nine if x not in numbers_to_eliminate] #removes inputted integers from remaining numbers
         else:
             print("Game over!")
             break
@@ -164,6 +164,5 @@ def shut_the_box(player, timelimit):
         print("Congratulations!! You shut the box!")
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
-        shut_the_box(sys.argv[1], sys.argv[2])
+    print(power_set([1,2,3,4,5]))
         
