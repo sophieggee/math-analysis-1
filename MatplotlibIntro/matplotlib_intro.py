@@ -135,16 +135,16 @@ def prob5():
     longitude = car_crash_data[:,1]
     latitude = car_crash_data[:,2]
 
-    plt.plot(longitude,latitude, 'k,') #plotting the longitude against latitude for car crashes-
-    plt.axis("equal") #setting the axes as scaled equal
-    plt.xlabel('Longitude of Crash') #labeling the axes
-    plt.ylabel('Latitude of Crash')
-    plt.show()
+    g1 = plt.subplot(121)
+    g1.plot(longitude,latitude, 'k,') #plotting the longitude against latitude for car crashes-
+    g1.axis("equal") #setting the axes as scaled equal
+    g1.set_xlabel('Longitude of Crash') #labeling the axes
+    g1.set_ylabel('Latitude of Crash')
 
-    plt.hist(hours, bins=24, range=[0, 24]) #plotting a histogram with hours as bins
-    plt.xlabel('Hour of Crash') #labeling the axes
-    plt.ylabel('Number of Crashes Countrywide')
-    plt.xlim(0,24)
+    g2 = plt.subplot(122)
+    g2.hist(hours, bins=24, range=[0, 24]) #plotting a histogram with hours as bins
+    g2.set_xlabel('Hour of Crash') #labeling the axes
+    g2.set_ylabel('Number of Crashes Countrywide')
     plt.show()
 
 # Problem 6
@@ -178,3 +178,6 @@ def prob6():
     plt.ylim(neg_2_pi, pos_2_pi)
 
     plt.show()
+
+if __name__ == "__main__":
+    prob5()
