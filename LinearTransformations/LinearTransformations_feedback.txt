@@ -21,3 +21,31 @@ Excellent!
 
 -------------------------------------------------------------------------------
 
+09/29/21 21:12
+
+Problem 1 (10 points):
+Score += 10
+
+Problem 2 (15 points):
+Score += 15
+
+Problem 3 (10 points):
+Score += 10
+
+Problem 4 (10 points):
+Score += 10
+
+Code Quality (5 points):
+make sure you comment and you don't leave in test code!
+Score += 3
+
+Total score: 48/50 = 96.0%
+
+Great job!
+
+
+Comments:
+	awesome job :)
+
+-------------------------------------------------------------------------------
+
