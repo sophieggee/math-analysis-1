@@ -183,22 +183,23 @@ def prob6():
     size n**2 versus the execution times. As always, use log scales where
     appropriate and use a legend to label each line.
     """
-    domain = 2**np.arange(1,8)
-    times =[]
+    domain = 2**np.arange(1,8) #set domaihn
+    times =[] #create arrays to store times
     times2=[]
-    for n in domain:
+    for n in domain: #iterate through to be able to time each n 
         A = prob5(n)
         b = np.random.random(n**2)
-        Acsr = A.tocsr()
+        Acsr = A.tocsr() #time using csr
         start = time.time()
         spla.spsolve(Acsr, b)
         times.append(time.time() - start)
 
         A = Acsr.toarray()
         start2 = time.time()
-        la.solve(A,b)
+        la.solve(A,b) #time using linalg
         times2.append(time.time() - start2)
 
+    #plot
     plt.plot(domain, times, '.-', linewidth=2, markersize=15, label="using csr spsolve")
     plt.plot(domain, times2, '.-', linewidth=2, markersize=15, label="using linalg.solve")
     plt.ylabel("time taken to compute")
