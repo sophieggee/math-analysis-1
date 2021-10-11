@@ -70,21 +70,13 @@ def solve(A, b):
     n = A.shape[0]
     L,U = lu(A)
     y = np.zeros((n))
-    x = np.zeros((n))
-    sum = 0
-
     for k in range(n): #finds sum for each inidvidual y_k
-        for j in range(k):
-            sum += L[k,j]*y[j]
-        y[k] = b[k] - sum #returns new y
-
-    sum2=0    
-    for k in range(n-1, -1, -1): #finds sum for each individual x_k using y_k
-        for j in range(k, n):
-            sum2 += U[k,j]*x[j]
-        x[k] = 1/U[k,k]*((y[k]) - sum2) #returns new x
-    
+        y[k] = b[k] - sum(L[k,0:k]*y[0:k])
+    x = np.zeros((n))
+    for k in range(n-1,-1,-1):
+        x[k] = (1/U[k,k])*(y[k]-sum(U[k,k+1:]*x[k+1:])) #returns new y
     return x
+
 
 
 
