@@ -1,0 +1,27 @@
+10/16/21 13:49
+
+Problem 1 (21 points):
+really really well done! it should be two clusters, but otherwise excellent job
+Score += 19
+
+Problem 2 (8 points):
+Score += 8
+
+Problem 3 (8 points):
+Score += 0
+
+Problem 4 (8 points):
+Score += 0
+
+Code Quality (5 points):
+label and title your plots and you should be good to go
+Score += 4
+
+Total score: 31/50 = 62.0%
+
+
+Comments:
+	well done!
+
+-------------------------------------------------------------------------------
+
