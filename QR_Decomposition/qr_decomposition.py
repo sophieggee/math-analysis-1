@@ -60,7 +60,7 @@ def solve(A, b):
         x ((n, ) ndarray): The solution to the system Ax = b.
     """
     Q,R = la.qr(A, mode="economic")
-    y = np.matmul(np.transpose(Q), b)
+    y = np.matmul(np.transpose(Q), b) #set y to Qtb
     x = np.zeros((len(y)))
     for k in range(len(y)-1,-1,-1):
         x[k] = (1/R[k,k])*(y[k]-sum(R[k,k+1:]*x[k+1:])) #returns new y
@@ -78,12 +78,12 @@ def qr_householder(A):
         Q ((m,m) ndarray): An orthonormal matrix.
         R ((m,n) ndarray): An upper triangular matrix.
     """
-    sign = lambda x: 1 if x >= 0 else -1
+    sign = lambda x: 1 if x >= 0 else -1 #make sign function
     m,n = np.shape(A)   #store dimensions of A
     R = np.copy(A) #make a copy of A
     Q = np.identity(m) #make an identity matrix of size m 
-    for k in (range(n)):
-        u = np.copy(R[k:,k])
+    for k in (range(n)): #iterate through n-1
+        u = np.copy(R[k:,k]) #make a copy called u
         u[0]= u[0]+ sign(u[0])*la.norm(u)
         u = u/la.norm(u)
         R[k:,k:] = R[k:,k:] - np.outer(2*u, np.matmul(np.transpose(u), R[k:,k:]))
@@ -102,12 +102,12 @@ def hessenberg(A):
         H ((n,n) ndarray): The upper Hessenberg form of A.
         Q ((n,n) ndarray): An orthonormal matrix.
     """
-    sign = lambda x: 1 if x >= 0 else -1
-    m,n = np.shape(A)
-    H = np.copy(A)
-    Q = np.identity(m)
-    for k in range(n-2):
-        u = np.copy(H[k+1:,k])
+    sign = lambda x: 1 if x >= 0 else -1 #make sign function
+    m,n = np.shape(A) #store dimensions of A
+    H = np.copy(A) #make a copy of A
+    Q = np.identity(m) #make an identity matrix of size m
+    for k in range(n-2): #iterate through n-3
+        u = np.copy(H[k+1:,k]) #make a copy called u
         u[0]= u[0] + sign(u[0])*la.norm(u)
         u = u/la.norm(u)
         H[k+1:,k:] = H[k+1:,k:] - np.outer(2*u, np.matmul(np.transpose(u), H[k+1:,k:]))
@@ -115,13 +115,8 @@ def hessenberg(A):
         Q[k+1:,:] = Q[k+1:,:] - np.outer(2*u, np.matmul(np.transpose(u), Q[k+1:,:]))
     return H, np.transpose(Q)
 
-if __name__ == "__main__":
-    A = np.random.random((6,6))
-    Q,R = la.qr(A, mode="economic") # Use mode="economic" for reduced QR.
-    b = np.random.random((6))
-    H, Q = hessenberg(A)
-    print(np.allclose(np.triu(H, -1), H))
-    print(np.allclose(np.matmul(np.matmul(Q,H), np.transpose(Q)),A))
+
+
     
 
     
