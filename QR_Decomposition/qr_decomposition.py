@@ -115,7 +115,11 @@ def hessenberg(A):
         Q[k+1:,:] = Q[k+1:,:] - np.outer(2*u, np.matmul(np.transpose(u), Q[k+1:,:]))
     return H, np.transpose(Q)
 
-
+if __name__ == "__main__":
+    A = np.array([[1,2],[2,5]])
+    Q,R = qr_gram_schmidt(A)
+    print(qr_gram_schmidt(A))
+    print(np.matmul(Q,R))
 
     
 
