@@ -25,3 +25,30 @@ Comments:
 
 -------------------------------------------------------------------------------
 
+10/26/21 09:41
+
+Problem 1 (25 points):
+Score += 25
+
+Problem 2 (10 points):
+Score += 10
+
+Problem 3 (10 points):
+Score += 10
+
+Problem 4 (extra credit) (0 points):
+Score += 0
+
+Code Quality (5 points):
+Score += 4
+
+Total score: 49/50 = 98.0%
+
+Excellent!
+
+
+Comments:
+	this looks fantastic. make sure you comment your first function (fit is a doozy so having some text to walk you through what's happening is in good practice). excellent job Sophie!
+
+-------------------------------------------------------------------------------
+
