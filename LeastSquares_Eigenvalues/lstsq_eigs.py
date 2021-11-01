@@ -39,14 +39,18 @@ def line_fit():
     index for the data in housing.npy. Plot both the data points and the least
     squares line.
     """
+    #load in data, separate by columns
     data = np.load("housing.npy")
     year = data[:,0]
     index = data[:,1]
     A = np.column_stack((year,np.ones(len(year))))
     b = index
+    #find slope using least squares equation computed
     slope_vector = least_squares(A,b)
     plt.plot(year, index, '.', label= "Data Points")
     domain = np.linspace(0,20)
+
+    #plot
     plt.plot(domain,((slope_vector[0]*domain)+slope_vector[1]), label = "Least Squares Line")
     plt.legend()
     plt.title("Housing Prices and Years")
@@ -59,11 +63,16 @@ def polynomial_fit():
     the year to the housing price index for the data in housing.npy. Plot both
     the data points and the least squares polynomials in individual subplots.
     """
+    #load in the data, separate it by columms
     data = np.load("housing.npy")
     year = data[:,0]
     b = data[:,1]
 
+    #create domain
+
     domain = np.linspace(0,16)
+
+    #create polynomials of degree 3,6,9, and 12 to adjust slopes
 
     poly3 = np.vander(year, 4)
     A3 = poly3
@@ -100,6 +109,7 @@ def polynomial_fit():
     g4.plot(domain,f12(domain), label = "Degree 12")
     g4.plot(year, b, '.', label= "Data Points")
     
+    #plot slopes of best fit in subplots
     plt.suptitle("Least Square Polynomials")
     plt.legend()
     plt.show()
@@ -128,6 +138,8 @@ def ellipse_fit():
     ellipse = np.load("ellipse.npy")
     x = ellipse[:,0]
     y = ellipse[:,1]
+
+    #create an A based on ellipse equation
     A = np.column_stack((x**2,x, x*y,y,y**2))
     coef = la.lstsq(A,np.ones(len(A)))[0]
     plot_ellipse(*tuple(coef))
@@ -151,15 +163,18 @@ def power_method(A, N=20, tol=1e-12):
         ((n,) ndarray): An eigenvector corresponding to the dominant
             eigenvalue of A.
     """
+    #find n dimension
     m,n = np.shape(A)
     x = np.random.random(n)
     x = x/la.norm(x)
+    #iterate through max numbers
     for k in range(N):
         y = np.matmul(A,x)
         y= y/la.norm(y)
         if la.norm(y-x) < tol:
             break
         x = y
+    #return eigvals and vector
     return np.matmul(np.transpose(x),np.matmul(A,x)),x
 
 
@@ -176,20 +191,26 @@ def qr_algorithm(A, N=50, tol=1e-12):
     Returns:
         ((n,) ndarray): The eigenvalues of A.
     """
+    #find n dimension
     m,n = np.shape(A)
     S = la.hessenberg(A)
+    #iterate thrpigh number to run the algorithm
     for k in range(N):
         Q,R = la.qr(S)
         S = np.matmul(R,Q)
     eigs = []
     i = 0
+    #while we have not gone through whole matrix
     while i < n:
+        #as long as i is not the last value in matrix
         if i == n-1:
             eigs.append(S[i,i])
             i+=1 
+        #if below value is around 0
         elif abs(S[i+1,i]) < tol:
             eigs.append(S[i,i])
             i+=1
+        #if below value is actual value
         elif abs(S[i+1,i]) >= tol:
             a = S[i,i]
             b = S[i,i+1]
@@ -198,6 +219,7 @@ def qr_algorithm(A, N=50, tol=1e-12):
             B = -a-d
             A_1 = 1
             C = a*d-b*c
+            #compute the quadratic formula to find different values
             eig_pos = (-B + np.sqrt(B**2-(4*C)))/2
             eig_neg = (-B - np.sqrt(B**2-(4*C)))/2
             eigs.append(eig_neg)
