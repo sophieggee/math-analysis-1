@@ -114,11 +114,12 @@ class ImageSegmenter:
     # Problem 3
     def show_original(self):
         """Display the original image."""
-        if np.shape(self.im) == 3:
+        if len(np.shape(self.im)) > 2:
             plt.imshow(self.im)
         else:
             plt.imshow(self.im, cmap="gray")
         plt.axis("off")
+        plt.show()
 
     # Problem 4
     def adjacency(self, r=5., sigma_B2=.02, sigma_X2=3.):
@@ -172,26 +173,34 @@ class ImageSegmenter:
         """Display the original image and its segments."""
         A, D = self.adjacency(r, sigma_B, sigma_X)
         mask = self.cut(A,D)
-        if len(np.shape(self.im)) == 3:
+        if len(np.shape(self.im)) > 2:
             if np.shape(self.im)[2] > 3:
                 mask = np.dstack((mask,mask,mask,mask))
             else:
                 mask = np.dstack((mask,mask,mask))
-    
+        #ACCOUNT FOR BLACK AND WHITE
 
         plt.subplot(131)
-        plt.imshow(self.im)
+        if len(np.shape(self.im)) > 2:
+            plt.imshow(self.im)
+        else:
+            plt.imshow(self.im, cmap="gray")
         plt.axis("off")
 
         pos = self.im*mask
         plt.subplot(132)
-        plt.imshow(pos)
+        if len(np.shape(pos)) > 2:
+            plt.imshow(pos)
+        else:
+            plt.imshow(pos, cmap="gray")
         plt.axis("off")
 
         neg = self.im*~mask
         plt.subplot(133)
-        plt.imshow(neg)
-
+        if len(np.shape(neg)) > 2:
+            plt.imshow(neg)
+        else:
+            plt.imshow(neg, cmap="gray")
         plt.axis("off")
 
         plt.show()
