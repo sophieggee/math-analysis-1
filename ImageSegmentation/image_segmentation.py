@@ -23,10 +23,13 @@ def laplacian(A):
     Returns:
         L ((N,N) ndarray): The Laplacian matrix of G.
     """
+    #collect shape of A using n 
     n,m = np.shape(A)
     D = np.zeros((n,n))
     for i in range(n):
         D[i,i] = np.sum(A, axis=0)[i]
+
+    #find and retun laplachian
     L = D-A
     return L
 
@@ -46,11 +49,14 @@ def connectivity(A, tol=1e-8):
     """
     L = laplacian(A)
     connect = 0
+
+    #set eigs to real eigenvalues
     eigs = np.real(la.eigvals(L))
     for eig in eigs:
         if abs(eig) < tol:
             connect += 1
             eig = 0
+    #return algebraic connectivity and num of connected components
     return (connect, partition(eigs, 1)[1])
 
 
@@ -178,8 +184,8 @@ class ImageSegmenter:
                 mask = np.dstack((mask,mask,mask,mask))
             else:
                 mask = np.dstack((mask,mask,mask))
-        #ACCOUNT FOR BLACK AND WHITE
-
+        
+        #ACCOUNT FOR BLACK AND WHITE with conditional if statements
         plt.subplot(131)
         if len(np.shape(self.im)) > 2:
             plt.imshow(self.im)
