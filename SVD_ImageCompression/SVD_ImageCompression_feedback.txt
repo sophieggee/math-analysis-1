@@ -52,3 +52,55 @@ Total score: 33/50 = 66.0%
 
 -------------------------------------------------------------------------------
 
+11/14/21 18:21
+
+Problem 1 (10 points):
+For an 5x10 test case of rank 5:
+U incorrect shape
+	Correct response: (5, 5)
+	Student response: (5, 6)
+Incorrect number of nonzero singular values
+	Correct response: 5
+	Student response: 6
+Vh incorrect shape
+	Correct response: (5, 10)
+	Student response: (6, 10)
+For an 10x10 test case of rank 5:
+U incorrect shape
+	Correct response: (10, 5)
+	Student response: (10, 6)
+Incorrect number of nonzero singular values
+	Correct response: 5
+	Student response: 6
+Vh incorrect shape
+	Correct response: (5, 10)
+	Student response: (6, 10)
+Score += 8
+
+Problem 2 (10 points):
+Score += 10
+
+Problem 3 (5 points):
+Score += 5
+
+Problem 4 (5 points):
+lowest_rank_approx() failed with error = 7.348854147466662 (showing ||A - Ahat||_2)
+	Correct response: 6.85222125298954
+	Student response: 7.448854147466664
+lowest_rank_approx() failed with error = 8.115986752134816 (showing ||A - Ahat||_2)
+	Correct response: 6.232229628005699
+	Student response: 8.215986752134818
+Score += 1
+
+Problem 5 (15 points):
+just put the difference in the title!
+Score += 8
+
+Code Quality (5 points):
+title your problem 2!
+Score += 4
+
+Total score: 36/50 = 72.0%
+
+-------------------------------------------------------------------------------
+
