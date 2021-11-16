@@ -94,7 +94,7 @@ def visualize_svd(A):
     g4.plot(UsigVhS[0,:],UsigVhS[1,:])
     g4.plot(UsigVhE[0,:], UsigVhE[1,:])
     g4.axis("equal")
-
+    plt.suptitle("Unit Circle with Basis Vectors SVD Compressed")
     plt.show()
 
 
@@ -163,7 +163,7 @@ def lowest_rank_approx(A, err):
     
     #find sigmaS+1, and s as well
     sig_s_1 = SIG[np.argmax(SIG)]
-    s = list(sig).index(sig_s_1)-1
+    s = list(sig).index(sig_s_1)
 
     return(svd_approx(A, s))
 
@@ -220,8 +220,10 @@ def compress_image(filename, s):
         g2.imshow(image_app)
         plt.axis("off")
 
-    plt.suptitle(f"Original image takes {num} entries, Compressed image takes {app_num} entries.")
+    plt.suptitle(f"Compressed image saves {num - app_num} entries.")
     plt.show()
 
 if __name__ == "__main__":
-    compress_image("hubble.jpg", 20)
+    A = np.random.random((4,5))
+    A_approx, err = lowest_rank_approx(A,1)
+    print(np.linalg.norm(A-A_approx, ord=2))
