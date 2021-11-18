@@ -1,0 +1,31 @@
+11/18/21 13:38
+
+Show a face from the dataset (5 points):
+Score += 5
+
+Show mean face. Show original face next to mean-shifted face (10 points):
+Score += 10
+
+Show some of eigenfaces (10 points):
+show a few eigenfaces with different values. also, label in the title
+Score += 6
+
+Show projections for 4 different versions of s (10 points):
+Score += 10
+
+Show sample images and their matches (10 points):
+Score += 10
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 46/50 = 92.0%
+
+Great job!
+
+
+Comments:
+	well done!
+
+-------------------------------------------------------------------------------
+
