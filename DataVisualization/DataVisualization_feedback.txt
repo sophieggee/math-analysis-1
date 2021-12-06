@@ -25,3 +25,39 @@ Total score: 0/50 = 0.0%
 
 -------------------------------------------------------------------------------
 
+12/06/21 08:27
+
+Problem 1 (5 points):
+don't forget to report slope, intercept, and correlation coeff too
+Score += 3
+
+Problem 2 (5 points):
+for B_0,0 (and why not for all of them) set ylim to be[0,1.1] so you cann see x=1
+Score += 4
+
+Problem 3 (5 points):
+Score += 5
+
+Problem 4 (10 points):
+Score += 10
+
+Problem 5 (10 points):
+Score += 10
+
+Problem 6 (10 points):
+make sure one of your plots is a histogram. looking great otherwise
+Score += 8
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 45/50 = 90.0%
+
+Great job!
+
+
+Comments:
+	well done!
+
+-------------------------------------------------------------------------------
+
