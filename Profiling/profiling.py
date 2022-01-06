@@ -152,8 +152,10 @@ def fibonacci():
     fn_1=1
     fn_2=1
     #step through each fibonacci sequence using two yields
+    yield fn_1
+    yield fn_2
     while True:
-        fn_1 += fn_1+fn_2
+        fn_1 += fn_2
         yield fn_1
         fn_2 += fn_1
         yield fn_2
