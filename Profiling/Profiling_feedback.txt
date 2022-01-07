@@ -1,0 +1,56 @@
+01/06/22 21:10
+
+Problem 1 (5 points):
+max_path_fast('triangle.txt'):
+	Solution time: 0.003965854645 seconds
+	Student time:  0.001715660095 seconds (Excellent!)
+max_path_fast('triangle_large.txt'):
+	Solution time: 0.031259775162 seconds
+	Student time:  0.002647638321 seconds (Excellent!)
+Score += 5
+
+Problem 2 (10 points):
+primes_fast(100):
+	Solution time: 0.011402606964 seconds
+	Student time:  0.001005887985 seconds (Excellent!)
+primes_fast(10001):
+	Solution time: 0.233184576035 seconds
+	Student time:  0.281260490417 seconds
+Score += 10
+
+Problem 3 (5 points):
+nearest_column_fast(), 10x15 A:
+	Solution time: 0.000000000000 seconds
+	Student time:  0.000000000000 seconds
+nearest_column_fast(), 1000x1005 A:
+	Solution time: 0.000998258591 seconds
+	Student time:  0.000998497009 seconds
+Score += 5
+
+Problem 4 (5 points):
+name_scores_fast() failed
+	Correct response: 871198282
+	Student response: 13650239
+Score += 0
+
+Problem 5 (5 points):
+Score += 5
+
+Problem 6 (10 points):
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+
+Problem 7 (5 points):
+Label axes and add title please!
+Score += 4
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 34/50 = 68.0%
+
+
+Comments:
+	Almost there, keep it up!
+
+-------------------------------------------------------------------------------
+
