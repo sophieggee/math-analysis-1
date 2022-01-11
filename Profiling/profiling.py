@@ -142,7 +142,7 @@ def name_scores_fast(filename='names.txt'):
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     letter_values = {letter: i+1 for i,letter in enumerate(alphabet)}
     name_val = lambda name: sum([letter_values[letter] for letter in name])
-    total = sum([i+1*name_val(name) for i,name in enumerate(names)])
+    total = sum([(i+1)*name_val(name) for i,name in enumerate(names)])
     return total
 
 
@@ -175,7 +175,7 @@ def fibonacci_digits(N=1000):
 def prime_sieve(N):
     """Yield all primes that are less than N."""
     ints = np.arange(2,N) #create a list of all of the integers from 2 to N
-    while ints: #while ints is not empty
+    while len(ints) > 0: #while ints is not empty
         num = ints[0]
         yield num
         ints = np.delete(ints, 0) #remove first entry
@@ -248,8 +248,11 @@ def prob7(n=10):
     plt.loglog(*zip(*a1), label="matrix_power function")
     plt.loglog(*zip(*a2), label="matrix_power_numba function")
     plt.loglog(*zip(*a3), label="np.la.matrix_power funciton")
+    plt.xlabel("Time")
+    plt.ylabel("Size of matrix")
+    plt.title("Time Taken to run Functions vs Size")
     plt.legend()
     plt.show()
 
 if __name__ == "__main__":
-    prob7()
+    print(name_scores_fast())
