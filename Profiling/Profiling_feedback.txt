@@ -54,3 +54,118 @@ Comments:
 
 -------------------------------------------------------------------------------
 
+01/11/22 21:18
+
+Problem 1 (5 points):
+max_path_fast('triangle.txt'):
+	Solution time: 0.000110626221 seconds
+	Student time:  0.000088691711 seconds (Excellent!)
+max_path_fast('triangle_large.txt'):
+	Solution time: 0.002660036087 seconds
+	Student time:  0.002491474152 seconds (Excellent!)
+Score += 5
+
+Problem 2 (10 points):
+primes_fast(100):
+	Solution time: 0.000129699707 seconds
+	Student time:  0.000099897385 seconds (Excellent!)
+primes_fast(10001):
+	Solution time: 0.048221349716 seconds
+	Student time:  0.056171178818 seconds
+Score += 10
+
+Problem 3 (5 points):
+nearest_column_fast(), 10x15 A:
+	Solution time: 0.000132560730 seconds
+	Student time:  0.000062227249 seconds (Excellent!)
+nearest_column_fast(), 1000x1005 A:
+	Solution time: 0.004227399826 seconds
+	Student time:  0.003239870071 seconds (Excellent!)
+Score += 5
+
+Problem 4 (5 points):
+name_scores_fast() failed
+	Correct response: 871198282
+	Student response: 13650239
+Score += 0
+
+Problem 5 (5 points):
+Score += 5
+
+Problem 6 (10 points):
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+
+Problem 7 (5 points):
+Score += 5
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 35/50 = 70.0%
+
+
+Comments:
+	Good job!
+
+-------------------------------------------------------------------------------
+
+01/11/22 22:54
+
+Problem 1 (5 points):
+max_path_fast('triangle.txt'):
+	Solution time: 0.000112295151 seconds
+	Student time:  0.000110864639 seconds (Excellent!)
+max_path_fast('triangle_large.txt'):
+	Solution time: 0.002743721008 seconds
+	Student time:  0.002400875092 seconds (Excellent!)
+Score += 5
+
+Problem 2 (10 points):
+primes_fast(100):
+	Solution time: 0.000128984451 seconds
+	Student time:  0.000099658966 seconds (Excellent!)
+primes_fast(10001):
+	Solution time: 0.049059629440 seconds
+	Student time:  0.057412624359 seconds
+Score += 10
+
+Problem 3 (5 points):
+nearest_column_fast(), 10x15 A:
+	Solution time: 0.000200986862 seconds
+	Student time:  0.000108957291 seconds (Excellent!)
+nearest_column_fast(), 1000x1005 A:
+	Solution time: 0.007163286209 seconds
+	Student time:  0.004582643509 seconds (Excellent!)
+Score += 5
+
+Problem 4 (5 points):
+name_scores_fast():
+	Solution time: 0.009326696396 seconds
+	Student time:  0.009224891663 seconds (Excellent!)
+Score += 5
+
+Problem 5 (5 points):
+Score += 5
+
+Problem 6 (10 points):
+list(prime_sieve(100000)):
+	Solution time: 2.399443864822 seconds
+	Student time:  0.592657089233 seconds (Excellent!)
+Score += 10
+
+Problem 7 (5 points):
+Score += 5
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 50/50 = 100.0%
+
+Excellent!
+
+
+Comments:
+	Awesome!
+
+-------------------------------------------------------------------------------
+
