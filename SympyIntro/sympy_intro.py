@@ -60,8 +60,8 @@ def prob3(N):
     f = sy.lambdify(y, y_expr, "numpy")
     h = lambda x: np.exp(-x**2)
 
-    plt.plot(f(domain),domain, label= "lambdify")
-    plt.plot(h(domain), domain, label= "lambda")
+    plt.plot(domain, f(domain),label= "lambdify")
+    plt.plot( domain, h(domain), label= "lambda")
     plt.title("Lambdifying two different ways")
     plt.legend()
     plt.show()
