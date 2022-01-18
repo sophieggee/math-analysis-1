@@ -210,7 +210,7 @@ def prob7():
     integrand = sy.simplify(h*-J)
 
     #symbollic radius function
-    rad_f = sy.integrate(integrand, (r,0,rad), (t,0,2*np.pi), (o, 0, np.pi))
+    rad_f = sy.integrate(integrand, (r,0,rad), (t,0,2*sy.pi), (o, 0, sy.pi))
 
     r_lamb = sy.lambdify(rad, rad_f, "numpy")
     domain = np.linspace(0,3,1000)
