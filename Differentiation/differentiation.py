@@ -1,41 +1,74 @@
 # differentiation.py
 """Volume 1: Differentiation.
-<Name>
-<Class>
-<Date>
+<Sophie Gee>
+<volume 1>
+<1/18/22>
 """
 
+from turtle import color
+import numpy as np
+from matplotlib import pyplot as plt
+from autograd import grad
+from autograd import numpy as anp 
+from autograd import elementwise_grad
+import sympy as sy
+import time
+import random
 
 # Problem 1
 def prob1():
     """Return the derivative of (sin(x) + 1)^sin(cos(x)) using SymPy."""
-    raise NotImplementedError("Problem 1 Incomplete")
+
+    x = sy.symbols('x')
+    df = sy.diff((sy.sin(x)+1)**sy.sin(sy.cos(x)), x)
+
+    #lambdify
+    lamb = sy.lambdify(x, df, "numpy")
+    return lamb
 
 
 # Problem 2
 def fdq1(f, x, h=1e-5):
     """Calculate the first order forward difference quotient of f at x."""
-    raise NotImplementedError("Problem 2 Incomplete")
+    #create x+h for input
+    x1 = x+h
+    return (f(x1) - f(x))/h
 
 def fdq2(f, x, h=1e-5):
     """Calculate the second order forward difference quotient of f at x."""
-    raise NotImplementedError("Problem 2 Incomplete")
+    #create x+h, and x+2h for input
+    x1 = x+h
+    x2 = x+2*h
+    return (-3*f(x) + 4*f(x1) - f(x2))/(2*h)
 
 def bdq1(f, x, h=1e-5):
     """Calculate the first order backward difference quotient of f at x."""
-    raise NotImplementedError("Problem 2 Incomplete")
+    #create x-h for input
+    x1 = x-h
+    return (f(x) - f(x1))/h
 
 def bdq2(f, x, h=1e-5):
     """Calculate the second order backward difference quotient of f at x."""
-    raise NotImplementedError("Problem 2 Incomplete")
+    #create x-h, and x-2h for input
+    x1 = x-h
+    x2 = x-2*h
+    return (3*f(x) - 4*f(x1)  + f(x2))/(2*h)
 
 def cdq2(f, x, h=1e-5):
     """Calculate the second order centered difference quotient of f at x."""
-    raise NotImplementedError("Problem 2 Incomplete")
+    #create x+h, x-h for input
+    x1 = x+h
+    x2 = x-h
+    return (f(x1) - f(x2))/(2*h)
 
 def cdq4(f, x, h=1e-5):
     """Calculate the fourth order centered difference quotient of f at x."""
-    raise NotImplementedError("Problem 2 Incomplete")
+    #create x+h, x-h, x-2h, x+2h for input
+    x1 = x-2*h
+    x2 = x-h
+    x3 = x+h
+    x4 = x+2*h
+    return (f(x1) - 8*f(x2) + 8*f(x3) - f(x4))/(12*h)
 
 
 # Problem 3
@@ -49,7 +82,28 @@ def prob3(x0):
     Parameters:
         x0 (float): The point where the derivative is being approximated.
     """
-    raise NotImplementedError("Problem 3 Incomplete")
+    #create the parameters necessary to plot graph
+    h_1 = np.logspace(-8,0,9)
+    f = lambda x: (np.sin(x) + 1)**np.sin(np.cos(x))
+    df = prob1()
+    err = lambda g,x,h: np.abs(df(x)-g(f,x,h))
+    funct = [fdq1, fdq2, bdq1, bdq2, cdq2, cdq4]
+    labels = ["Order 1 Forward", "Order 2 Forward", "Order 1 Backward",
+    "Order 2 Backward", "Order 2 Centered", "Order 4 Centered"]
+    y = []
+
+    #two for loops, 1 for function, 1 for h values
+    for j,f_1 in enumerate(funct):
+        for i in h_1:
+            y.append(err(f_1,x0,i))
+        plt.loglog(h_1, y, marker=".", label = f"{labels[j]}")
+        y = []
+
+    #plot and show, use label
+    plt.xlabel("h")
+    plt.ylabel("Absolute Error")
+    plt.legend()
+    plt.show()
 
 
 # Problem 4
@@ -76,7 +130,32 @@ def prob4():
     difference quotient for t=8,9,...,13. Return the values of the speed at
     each t.
     """
-    raise NotImplementedError("Problem 4 Incomplete")
+    #load data and convert degrees to radians for alpha and beta
+    data = np.load("plane.npy")
+    data[:,1] = np.deg2rad(data[:,1])
+    data[:,2] = np.deg2rad(data[:,2])
+
+    #create array fo return values, sqrt(x'**2+y'**2), define x and y
+    t_vals = []
+    x = lambda a,b: (500*np.tan(b))/(np.tan(b)-np.tan(a))
+    y = lambda a,b: (500*np.tan(b)*np.tan(a))/(np.tan(b)-np.tan(a))
+
+    for i in range(8):
+        #first order forward diff quotient
+        if i == 0:
+            x_p = x(data[i+1,1], data[i+1,2]) - x(data[i,1],data[i,2])
+            y_p = y(data[i+1,1], data[i+1,2]) - y(data[i,1],data[i,2])
+        #first order backward diff quotient
+        elif i == 7:
+            x_p = x(data[i,1], data[i,2]) - x(data[i-1,1],data[i-1,2])
+            y_p = y(data[i,1], data[i,2]) - y(data[i-1,1],data[i-1,2])
+        #second order centered diff quotient
+        else:
+            x_p = (x(data[i+1,1], data[i+1,2]) - x(data[i-1,1],data[i-1,2]))/2
+            y_p = (y(data[i+1,1], data[i+1,2]) - y(data[i-1,1],data[i-1,2]))/2
+        t_vals.append(np.sqrt(x_p**2+y_p**2))
+
+    return t_vals
 
 
 # Problem 5
@@ -95,7 +174,14 @@ def jacobian_cdq2(f, x, h=1e-5):
     Returns:
         ((m,n) ndarray) the Jacobian matrix of f at x.
     """
-    raise NotImplementedError("Problem 5 Incomplete")
+    n = len(x)
+    #set up nxn identity matrix for ej
+    E = np.eye(n)
+
+    #create directional derivatives
+    df_dj = lambda j: (f(x+h*E[j])-f(x-h*E[j]))/(2*h)
+
+    return np.transpose([df_dj(j) for j in range(n)])
 
 
 # Problem 6
@@ -106,14 +192,30 @@ def cheb_poly(x, n):
         x (autograd.ndarray): the points to evaluate T_n(x) at.
         n (int): The degree of the polynomial.
     """
-    raise NotImplementedError("Problem 6 Incomplete")
+
+    #check base cases
+    if n == 0:
+        return anp.ones_like(x)
+    if n == 1:
+        return x
+    
+    #return recursive relation
+    else:
+        return 2*x*cheb_poly(x,n-1) - cheb_poly(x,n-2)
 
 def prob6():
     """Use Autograd and cheb_poly() to create a function for the derivative
     of the Chebyshev polynomials, and use that function to plot the derivatives
     over the domain [-1,1] for n=0,1,2,3,4.
     """
-    raise NotImplementedError("Problem 6 Incomplete")
+    domain = anp.linspace(-1,1,1000)
+    for n in range(5):
+        gradient = elementwise_grad(cheb_poly)
+        dg = gradient(domain,n)
+        plt.plot(domain, dg, label=f"n = {n} derivative")
+    plt.legend()
+    plt.title("Gradients at Various N-Values")
+    plt.show()
 
 
 # Problem 7
@@ -135,4 +237,54 @@ def prob7(N=200):
     with different colors for SymPy, the difference quotient, and Autograd.
     For SymPy, assume an absolute error of 1e-18.
     """
-    raise NotImplementedError("Problem 7 Incomplete")
+    f = lambda x: (anp.sin(x) + 1)**anp.sin(anp.cos(x))
+    t_auto = []
+    err_auto = []
+    t_symp = []
+    err_symp = []
+    t_cdq4 = []
+    err_cdq4 = []
+
+    for i in range(N):
+        #define random x0
+        x0 = anp.random.random()
+
+        #time sympy
+        start = time.time()
+        df = prob1()
+        d = df(x0)
+        end = time.time()
+        t = end-start
+        t_symp.append(t)
+        err_symp.append(1e-18)
+
+        #time diff quotients
+        start = time.time()
+        d1 = cdq4(f, x0, h=1e-5)
+        end = time.time()
+        t = end-start
+        t_cdq4.append(t)
+        error = np.abs(d-d1)
+        err_cdq4.append(error)
+        
+        #time Autograd
+        start = time.time()
+        d_1 = grad(f)
+        d2 = d_1(x0)
+        end = time.time()
+        t = end-start
+        t_auto.append(t)
+        error = np.abs(d-d2)
+        err_auto.append(error)
+    plt.loglog(t_symp, err_symp, ".",color="blue", label="SymPy", alpha=0.5, markeredgecolor='none')
+    plt.loglog(t_cdq4, err_cdq4,".", color="orange", label="Difference Quotients", alpha=0.5, markeredgecolor='none')
+    plt.loglog(t_auto, err_auto,".", color="green", label="Autograd", alpha=0.5, markeredgecolor='none')
+    plt.xlabel("Computation Time (seconds)")
+    plt.ylabel("Absolute Error")
+    plt.title("Computation Time vs Error of Diff Methods")
+    plt.legend()
+    plt.show()
+
+
+if __name__ == "__main__":
+    prob7()
