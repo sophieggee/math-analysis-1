@@ -1,10 +1,14 @@
 # newtons_method.py
 """Volume 1: Newton's Method.
-<Name>
-<Class>
-<Date>
+<Sophie Gee>
+<Volume 1>
+<1/25/22>
 """
 
+from autograd import grad
+import numpy as np
+from matplotlib import pyplot as plt
+import numpy.linalg as la
 
 # Problems 1, 3, and 5
 def newton(f, x0, Df, tol=1e-5, maxiter=15, alpha=1.):
@@ -24,8 +28,36 @@ def newton(f, x0, Df, tol=1e-5, maxiter=15, alpha=1.):
         (bool): Whether or not Newton's method converged.
         (int): The number of iterations computed.
     """
-    raise NotImplementedError("Problem 1 Incomplete")
+    converge = False
 
+    if np.isscalar(x0):
+    
+        #iterate over maxiter
+        for k in range(maxiter):
+            #newton's equation
+            x1 = x0 - alpha*(f(x0)/Df(x0))
+            
+            #check if the tolerance has been met
+            if abs(x1-x0) < tol:
+                converge = True
+                break
+            x0 = x1
+
+        return x1, converge, k
+    
+    else:
+        #iterate over maxiter
+        for k in range(maxiter):
+            #solve the linear system rather than computing Df at each step
+            y0 = la.solve(Df(x0), f(x0))
+            x1 = x0 - alpha*y0
+
+            #check norm rather than absolute value
+            if la.norm(x1-x0) < tol:
+                converge = True
+                break
+            x0 = x1
+        return x1, converge, k
 
 # Problem 2
 def prob2(N1, N2, P1, P2):
@@ -46,8 +78,13 @@ def prob2(N1, N2, P1, P2):
     Returns:
         (float): the value of r that satisfies the equation.
     """
-    raise NotImplementedError("Problem 2 Incomplete")
+    #create f in terms of r, set to 0
+    f = lambda r: P1*((1+r)**N1-1)-P2*(1-(1+r)**-N2)
+    df = grad(f)
+    #call newton's method
+    r, c, k = newton(f, .1, df)
 
+    return(r)
 
 # Problem 4
 def optimal_alpha(f, x0, Df, tol=1e-5, maxiter=15):
@@ -66,8 +103,23 @@ def optimal_alpha(f, x0, Df, tol=1e-5, maxiter=15):
         (float): a value for alpha that results in the lowest number of
             iterations.
     """
-    raise NotImplementedError("Problem 4 Incomplete")
+    #create an alpha linspace for 100 values between 0 and 1
+    alpha = np.linspace(0.001, 1, 100)
+    best_alpha = []
+    for a in alpha:
+        #set the key of alpha equal to num of iters, append to best_alpha
+        k = newton(f, x0, Df, tol, maxiter, a)[2]
+        best_alpha.append(k)
+   
+    #plot the alphas against the number of iterations   
+    plt.plot(alpha, best_alpha)
+    plt.xlabel("Alpha Value")
+    plt.ylabel("Number of Iterations")
+    plt.title("Alphas and Iterations")
+    plt.show()
 
+    #return lowest, most optimal alpha term
+    return alpha[np.argmin(best_alpha)]
 
 # Problem 6
 def prob6():
@@ -80,8 +132,40 @@ def prob6():
     (0,1) or (0,−1) with alpha = 1, and to (3.75, .25) with alpha = 0.55.
     Return the intial point as a 1-D NumPy array with 2 entries.
     """
-    raise NotImplementedError("Problem 6 Incomplete")
+    #define functions
+    f_1 = lambda x: (5*x[0]*x[1])-(x[0]*(1+x[1]))
+    f_2 = lambda x: (-1*x[0]*x[1])+(1-x[1])*(1+x[1])
+    f = lambda x: np.array([f_1(x), f_2(x)])
 
+    #define derivatives
+    df1_dx = lambda v: (4 * v[1]) - 1
+    df1_dy = lambda v: 4 * v[0]
+    df2_dx = lambda v: -v[1]
+    df2_dy = lambda v: -v[0] - 2 * v[1]
+    df = lambda v: np.array([[df1_dx(v), df1_dy(v)], [df2_dx(v), df2_dy(v)]])
+
+
+    #create the rectangle to search within
+    x_domain = np.linspace(-.25, 0, 100)
+    y_domain = np.linspace(0, .25, 100)
+    rect = np.meshgrid(x_domain, y_domain)
+    pos = np.column_stack([np.ravel(x) for x in rect])
+
+
+    #search through and test values in grid rectangle
+    tol = 1e-5
+    for x in x_domain:
+        for y in y_domain:
+            x0 = np.array([x, y])
+            a1 = newton(f, x0, df)
+            a55 = newton(f, x0, df, alpha=0.55)
+            if not(a1[1] and a55[1]):
+                continue
+            if  (la.norm(a1[0] - [0., 1.]) < tol or
+                la.norm(a1[0] - [0., -1.]) < tol or
+                la.norm(a1[0] - [3.75, 0.25]) < tol):
+                return x0
+    return "Not Found"
 
 # Problem 7
 def plot_basins(f, Df, zeros, domain, res=1000, iters=15):
@@ -97,4 +181,34 @@ def plot_basins(f, Df, zeros, domain, res=1000, iters=15):
             The visualized grid has shape (res, res).
         iters (int): The exact number of times to iterate Newton's method.
     """
-    raise NotImplementedError("Problem 7 Incomplete")
+    #construct the resxres grid X0
+    a_domain = np.linspace(domain[0], domain[1], res)
+    b_domain = np.linspace(domain[2], domain[3], res)
+    X_real, X_imag = np.meshgrid(a_domain, b_domain)
+    X_0 = X_real + 1j*X_imag
+
+    #run newtons method on X_0 iters times, obtain xk
+    for k in range(iters):
+        #solve the linear system rather than computing Df at each step
+        X_0 = X_0 - f(X_0)/Df(X_0)
+
+    #create another resxres array Y
+    Y = np.zeros((res, res))
+
+    #set Y values
+    for i, j in list(np.ndindex(res, res)):
+            Y[i,j] = np.argmin([la.norm(z-X_0[i,j]) for z in zeros])
+    
+    #plot out the colormesh
+    plt.pcolormesh(X_real, X_imag, Y, cmap='brg', shading = 'auto')
+    plt.xlabel("Real Parts")
+    plt.ylabel("Imaginary Parts")
+    plt.title("Basins of attraction")
+    plt.show()
+
+if __name__ == "__main__":
+    f = lambda x: x**3 - 1
+    df = lambda x: 3*x**2
+    zeros_f = [1, (-1/2 - 1j*np.sqrt(3)/2), (-1/2 + 1j*np.sqrt(3)/2)]
+    domain = [-1.5, 1.5, -1.5, 1.5]
+    plot_basins(f, df, zeros_f, domain)
