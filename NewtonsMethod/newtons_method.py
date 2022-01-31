@@ -153,18 +153,21 @@ def prob6():
 
 
     #search through and test values in grid rectangle
-    tol = 1e-5
+    #check if convergence is allclose and condition upon this
     for x in x_domain:
         for y in y_domain:
             x0 = np.array([x, y])
-            a1 = newton(f, x0, df)
-            a55 = newton(f, x0, df, alpha=0.55)
-            if not(a1[1] and a55[1]):
-                continue
-            if  (la.norm(a1[0] - [0., 1.]) < tol or
-                la.norm(a1[0] - [0., -1.]) < tol or
-                la.norm(a1[0] - [3.75, 0.25]) < tol):
-                return x0
+            try:
+                a1 = newton(f, x0, df)
+                if  (np.allclose(a1[0], [0., 1.]) or
+                    np.allclose(a1[0], [0., -1.])):
+                    a55 = newton(f, x0, df, alpha=0.55)
+                    if  (np.allclose(a55[0], [3.75, 0.25])):
+                        return x0
+                else:
+                    continue
+            except:
+                pass
     return "Not Found"
 
 # Problem 7
@@ -207,8 +210,4 @@ def plot_basins(f, Df, zeros, domain, res=1000, iters=15):
     plt.show()
 
 if __name__ == "__main__":
-    f = lambda x: x**3 - 1
-    df = lambda x: 3*x**2
-    zeros_f = [1, (-1/2 - 1j*np.sqrt(3)/2), (-1/2 + 1j*np.sqrt(3)/2)]
-    domain = [-1.5, 1.5, -1.5, 1.5]
-    plot_basins(f, df, zeros_f, domain)
+    print(prob6())
