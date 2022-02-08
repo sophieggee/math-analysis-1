@@ -236,4 +236,4 @@ def prob6():
     plt.show()
 
 if __name__ == "__main__":
-    prob6()
+    print(prob2())
