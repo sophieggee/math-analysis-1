@@ -1,0 +1,28 @@
+02/10/22 17:51
+
+Problem 1 (10 points):
+Should be close to pi
+ball_volume() failed for n=3, N=10000
+ball_volume() failed for n=4, N=10000
+Score += 0
+
+Problem 2 (10 points):
+Score += 10
+
+Problem 3 (15 points):
+TypeError: unsupported format string passed to numpy.ndarray.__format__
+
+Problem 4 (10 points):
+Score += 10
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 25/50 = 50.0%
+
+
+Comments:
+	Looking good so far!
+
+-------------------------------------------------------------------------------
+
