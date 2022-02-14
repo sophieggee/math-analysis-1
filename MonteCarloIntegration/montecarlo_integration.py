@@ -22,7 +22,7 @@ def ball_volume(n, N=10000):
         (float): An estimate for the volume of the n-dimensional unit ball.
     """
     #Get N random poiints in the n-d domain
-    points = np.random.uniform(-1, 1, (N, n))
+    points = np.random.uniform(-1, 1, (n, N))
 
     #Determine how many points are within the circle
     lengths = la.norm(points, axis = 0)
@@ -86,12 +86,13 @@ def mc_integrate(f, mins, maxs, N=10000):
     n = len(mins)
 
     #Get N random poiints in the n-dimensional [0, 1] domain, then shift
-    points = np.random.uniform(0, 1, (N, n))
+    points = np.random.uniform(0, 1, (n, N))
     mins, maxs = np.array(mins), np.array(maxs)
-    points = (maxs - mins) * points + mins
+    points = (maxs - mins)[:, np.newaxis] * points 
+    points = points + mins[:, np.newaxis]
 
     #calulate average
-    average = sum([f(points[i]) for i in range(N)]) / N
+    average = sum([f(points[:,i]) for i in range(N)]) / N
 
     V = np.prod(maxs - mins)
 
@@ -136,4 +137,5 @@ def prob4():
 
 
 if __name__ == "__main__":
-    prob4()
+    f = lambda x: 3*x[0] - 4*x[1] + x[1]**2
+    print(mc_integrate(f, [1, -2], [3, 1]))
