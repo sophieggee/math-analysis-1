@@ -26,3 +26,28 @@ Comments:
 
 -------------------------------------------------------------------------------
 
+02/15/22 10:58
+
+Problem 1 (10 points):
+Score += 10
+
+Problem 2 (10 points):
+Score += 10
+
+Problem 3 (15 points):
+TypeError: unsupported format string passed to numpy.ndarray.__format__
+
+Problem 4 (10 points):
+Score += 10
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 35/50 = 70.0%
+
+
+Comments:
+	Come see me and we can get you points back on problem 3
+
+-------------------------------------------------------------------------------
+
