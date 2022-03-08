@@ -64,7 +64,8 @@ class DiGraph:
         A_inv = la.inv(A)
 
         #return A_inv@b
-        p = A_inv@b
+        #p = A_inv@b
+        p = la.solve(A, b)
 
         dictionary = {self.labels[i]: p[i] for i in range(self.n)}
 
@@ -139,8 +140,13 @@ def get_ranks(d):
     Returns:
         (list) the keys of d, sorted by PageRank value from greatest to least.
     """
-    vals, keys = zip(*sorted(zip(d.values(), d.keys())))
-    return list(keys[::-1])
+    #create list of keyss
+    #destructure and sort from greatest to least rather than least to greatest
+    labels = list(d.keys())
+    l = [(-val,key) for key,val in zip(d.keys(), d.values())]
+    l.sort()
+
+    return [i[1] for i in l]
     
 
 
@@ -252,5 +258,7 @@ def rank_actors(filename="top250movies.txt", epsilon=0.85):
     
 
 if __name__ == "__main__":
-    graph = DiGraph(np.array([[0, 0, 0, 0], [1, 0, 1, 0], [1 , 0, 0, 1], [1, 0, 1, 0]], dtype=float))
-    print(rank_actors(epsilon = .7)[:3])
+    #graph = DiGraph(np.array([[0, 0, 0, 0], [1, 0, 1, 0], [1 , 0, 0, 1], [1, 0, 1, 0]], dtype=float))
+    #print(rank_actors(epsilon = .7)[:3])
+    print(rank_websites()[-20:])
+    
