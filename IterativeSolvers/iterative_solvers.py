@@ -93,6 +93,13 @@ def gauss_seidel(A, b, tol=1e-8, maxiter=100, plot=False):
         #check error and tolerance
         if err < tol:
             break
+    #check for plot boolean
+    if plot:
+        plt.semilogy(errs)
+        plt.xlabel("Iteration")
+        plt.ylabel("Abs Error of Approximation")
+        plt.title("Convergence of Gauss Seidel Method")
+        plt.show()
 
     #output solution to Ax = b
     return x
@@ -205,6 +212,13 @@ def hot_plate(n, omega, tol=1e-8, maxiter=100, plot=False):
     
     #collect solution to Ax = b
     sol = sor(A, b, omega, tol, maxiter)
+
+    #check plot boolean
+    if plot:
+        u = sol[0].reshape((n, n))
+        plt.pcolormesh(u, cmap="coolwarm")
+        plt.title("Solution")
+        plt.show()
     
     #return solution
     return sol
