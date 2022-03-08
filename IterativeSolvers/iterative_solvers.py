@@ -1,12 +1,13 @@
 # iterative_solvers.py
 """Volume 1: Iterative Solvers.
-<Name>
-<Class>
-<Date>
+<Sophie Gee>
+<3/7/22>
 """
 
 import numpy as np
-
+from scipy import linalg as la
+from matplotlib import pyplot as plt
+from scipy import sparse as sp
 
 # Helper function
 def diag_dom(n, num_entries=None):
@@ -45,7 +46,22 @@ def jacobi(A, b, tol=1e-8, maxiter=100):
     Returns:
         ((n,) ndarray): The solution to system Ax = b.
     """
-    raise NotImplementedError("Problem 1 Incomplete")
+    #set n to be the length of A, get intial x's
+    n = len(A)
+    x0, x1 = np.zeros(n), np.zeros(n)
+    errs = []
+
+    #iterate through maxiter times
+    for i in range(maxiter):
+        x1 = x0 + ((b - A.dot(x0)) / np.diag(A))
+        err = la.norm(x1 - x0, ord=np.inf)
+        errs.append(err)
+        #if the error is less than tolerance, break
+        if err < tol:
+            break
+        x0 = x1
+    #return solution to Ax = b
+    return x1
 
 
 # Problem 3
@@ -62,7 +78,24 @@ def gauss_seidel(A, b, tol=1e-8, maxiter=100, plot=False):
     Returns:
         x ((n,) ndarray): The solution to system Ax = b.
     """
-    raise NotImplementedError("Problem 3 Incomplete")
+    #get length of A, create zeros for x, collect errors
+    n = len(A)
+    x = np.zeros(n)
+    errs = []
+
+    #iterate through maxiter times
+    for i in range(maxiter):
+        prev = x.copy()
+        for j in range(n):
+            x[j] = x[j] + ((b[j] - np.dot(A[j].T, x)) / A[j,j]) 
+        err = la.norm(x - prev, ord=np.inf)
+        errs.append(err)
+        #check error and tolerance
+        if err < tol:
+            break
+
+    #output solution to Ax = b
+    return x
 
 
 # Problem 4
@@ -79,7 +112,27 @@ def gauss_seidel_sparse(A, b, tol=1e-8, maxiter=100):
     Returns:
         x ((n,) ndarray): The solution to system Ax = b.
     """
-    raise NotImplementedError("Problem 4 Incomplete")
+    #get n the shape of A, set initial variables
+    n = A.shape[0]
+    x = np.zeros(n)
+    errs = []
+
+    #range through maxiter times
+    for i in range(maxiter):
+        prev = x.copy()
+        for j in range(n):
+            start = A.indptr[j]
+            end = A.indptr[j+1]
+            Aix = A.data[start:end] @ x[A.indices[start:end]]
+            x[j] = x[j] + ((b[j] - Aix) / A[j,j])
+        err = la.norm(x - prev, ord=np.inf)
+        #include this error norm
+        errs.append(err)
+        if err < tol:
+            break
+
+    #return optimal x
+    return x
 
 
 # Problem 5
@@ -99,8 +152,27 @@ def sor(A, b, omega, tol=1e-8, maxiter=100):
         (bool): Whether or not Newton's method converged.
         (int): The number of iterations computed.
     """
-    raise NotImplementedError("Problem 5 Incomplete")
+    #set up initial variables, collect right dimensions
+    n = A.shape[0]
+    x = np.zeros(n)
+    errs = []
+    conv = False
 
+    #iterate through until convergent, check convergence, output returns
+    for i in range(maxiter):
+        prev = x.copy()
+        for j in range(n):
+            start = A.indptr[j]
+            end = A.indptr[j+1]
+            Aix = A.data[start:end] @ x[A.indices[start:end]]
+            x[j] = x[j] + ((b[j] - Aix) * (omega / A[j,j]))
+        err = la.norm(x - prev, ord=np.inf)
+        errs.append(err)
+        if err < tol:
+            conv = True
+            break
+
+    return x, conv, i + 1
 
 # Problem 6
 def hot_plate(n, omega, tol=1e-8, maxiter=100, plot=False):
@@ -120,7 +192,22 @@ def hot_plate(n, omega, tol=1e-8, maxiter=100, plot=False):
         (bool): Whether or not Newton's method converged.
         (int): The number of computed iterations in SOR.
     """
-    raise NotImplementedError("Problem 6 Incomplete")
+    # constuct A, B, n squared
+    ns = n ** 2
+    B = sp.diags([1, -4, 1], [-1, 0, 1], shape=(n, n))
+    A = sp.block_diag([B] * n)
+    A += sp.diags([1, 1], [-n, n], shape=(ns, ns))
+    
+    # Contruct b
+    base = np.zeros(n)
+    base[0], base[-1] = -100, -100
+    b = np.tile(base, ns)
+    
+    #collect solution to Ax = b
+    sol = sor(A, b, omega, tol, maxiter)
+    
+    #return solution
+    return sol
 
 
 # Problem 7
@@ -129,4 +216,14 @@ def prob7():
     and maxiter = 1000 with A and b generated with n=20. Plot the iterations
     computed as a function of omega.
     """
-    raise NotImplementedError("Problem 7 Incomplete")
+    #set up domain and interations of hot plate
+    domain = np.arange(1, 2, .05)
+    iters = [hot_plate(20, omega, tol=1e-2, maxiter=1000)[2] 
+             for omega in domain]
+
+    #plot the running of hot_plate
+    plt.plot(domain, iters)
+    plt.xlabel("Omega")
+    plt.ylabel("Iteration")
+    plt.title("Hot Plate")
+    plt.show()
