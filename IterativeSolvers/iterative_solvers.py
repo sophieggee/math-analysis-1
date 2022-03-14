@@ -34,7 +34,7 @@ def diag_dom(n, num_entries=None):
     return A
 
 # Problems 1 and 2
-def jacobi(A, b, tol=1e-8, maxiter=100):
+def jacobi(A, b, tol=1e-8, maxiter=100, plot= False):
     """Calculate the solution to the system Ax = b via the Jacobi Method.
 
     Parameters:
@@ -60,6 +60,14 @@ def jacobi(A, b, tol=1e-8, maxiter=100):
         if err < tol:
             break
         x0 = x1
+        
+    #plot for probklem 2
+    if plot:
+        plt.semilogy(errs)
+        plt.xlabel("Iteration")
+        plt.ylabel("Abs Error of Approximation")
+        plt.title("Convergence of Jacobi Method")
+        plt.show()
     #return solution to Ax = b
     return x1
 
