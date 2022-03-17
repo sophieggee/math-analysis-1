@@ -94,3 +94,53 @@ Comments:
 
 -------------------------------------------------------------------------------
 
+03/17/22 15:51
+
+Problems 1-2 (15 points):
+DiGraph.linsolve() failed (PageRank vector does not sum to 1)
+DiGraph.linsolve() failed (PageRank vector does not sum to 1)
+DiGraph.linsolve() failed (PageRank vector does not sum to 1)
+DiGraph.linsolve() failed (PageRank vector does not sum to 1)
+DiGraph.eigensolve() failed for epsilon=0.83, A =
+[[0 0 0 0 0 0 0 0 0 0]
+ [1 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0]]
+	Correct response: [0.092 0.169 0.092 0.092 0.092 0.092 0.092 0.092 0.092 0.092]
+	Student response: [0.074 0.338 0.074 0.074 0.074 0.074 0.074 0.074 0.074 0.074]
+DiGraph.itersolve() failed (PageRank vector does not sum to 1)
+DiGraph.itersolve() failed (PageRank vector does not sum to 1)
+DiGraph.itersolve() failed (PageRank vector does not sum to 1)
+DiGraph.itersolve() failed (PageRank vector does not sum to 1)
+DiGraph.itersolve() failed (PageRank vector does not sum to 1)
+Score += 5
+
+Problem 3 (5 points):
+Score += 5
+
+Problem 4 (5 points):
+Score += 5
+
+Problem 5 (10 points):
+Score += 10
+
+Problem 6 (10 points):
+Score += 10
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 40/50 = 80.0%
+
+
+Comments:
+	Good job!
+
+-------------------------------------------------------------------------------
+
