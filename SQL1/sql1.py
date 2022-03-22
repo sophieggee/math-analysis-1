@@ -1,10 +1,12 @@
 # sql1.py
 """Volume 1: SQL 1 (Introduction).
-<Name>
-<Class>
-<Date>
+<Sophie Gee>
+<03/22/22>
 """
 
+import sqlite3 as sql
+import csv
+from matplotlib import pyplot as plt
 
 # Problems 1, 2, and 4
 def student_db(db_file="students.db", student_info="student_info.csv",
@@ -42,8 +44,39 @@ def student_db(db_file="students.db", student_info="student_info.csv",
         student_grades (str): The name of a csv file containing data for the
             StudentGrades table.
     """
-    raise NotImplementedError("Problem 1 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            #clear out tables if they exist, build new ones
+            cur = conn.cursor()
+            cur.execute("DROP TABLE IF EXISTS MajorInfo")
+            cur.execute("DROP TABLE IF EXISTS CourseInfo")
+            cur.execute("DROP TABLE IF EXISTS StudentInfo")
+            cur.execute("DROP TABLE IF EXISTS StudentGrades")
+            cur.execute("CREATE TABLE MajorInfo (MajorID INTEGER, MajorName TEXT)")
+            cur.execute("CREATE TABLE CourseInfo (CourseID INTEGER, CourseName TEXT)")
+            cur.execute("CREATE TABLE StudentInfo (StudentID INTEGER, StudentName TEXT, MajorID INTEGER)")
+            cur.execute("CREATE TABLE StudentGrades (StudentID INTEGER, CourseID INTEGER, Grade TEXT)")
+            cur.execute("SELECT * FROM StudentInfo")
 
+            #build major and course info tables
+            major_info = [(1, "Math"), (2, "Science"), (3, "Writing"), (4, "Art")]
+            cur.executemany("INSERT INTO MajorInfo VALUES(?, ?);", major_info)
+            course_info = [(1, "Calculus"), (2, "English"), (3, "Pottery"), (4, "History")]
+            cur.executemany("INSERT INTO CourseInfo VALUES(?, ?);", course_info)
+
+            #build student info from csv
+            with open(student_info, "r") as myfile:
+                rows = list(csv.reader(myfile))
+            cur.executemany("INSERT INTO StudentInfo VALUES(?, ?, ?);", rows)
+            cur.execute("UPDATE StudentInfo SET MajorID=null WHERE MajorId==-1")
+            
+            #build student grades from csv
+            with open(student_grades, "r") as myfile:
+                grades = list(csv.reader(myfile))
+            cur.executemany("INSERT INTO StudentGrades VALUES(?, ?, ?);", grades)
+    
+    finally:
+        conn.close()
 
 # Problems 3 and 4
 def earthquakes_db(db_file="earthquakes.db", data_file="us_earthquakes.csv"):
@@ -62,7 +95,29 @@ def earthquakes_db(db_file="earthquakes.db", data_file="us_earthquakes.csv"):
         data_file (str): The name of a csv file containing data for the
             USEarthquakes table.
     """
-    raise NotImplementedError("Problem 3 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            #clear out tables if they exist, build new ones
+            cur = conn.cursor()
+            cur.execute("DROP TABLE IF EXISTS USEarthquakes")
+            cur.execute("CREATE TABLE USEarthquakes (Year INTEGER, Month INTEGER, Day INTEGER, Hour INTEGER, Minute INTEGER, Second INTEGER, Latitude REAL, Longitude REAL, Magnitude REAL)")
+
+            #build USEarthquakes from csv
+            with open(data_file, "r") as myfile:
+                stats = list(csv.reader(myfile))
+            cur.executemany("INSERT INTO USEarthquakes VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", stats)
+
+            #replace zeros with NULL
+            cur.execute("UPDATE USEarthquakes SET Minute=null WHERE Minute==0")
+            cur.execute("UPDATE USEarthquakes SET Hour=null WHERE Hour==0")
+            cur.execute("UPDATE USEarthquakes SET Second=null WHERE Second==0")
+            cur.execute("UPDATE USEarthquakes SET Day=null WHERE Day==0")
+
+            #remove row when NULL magnitude
+            cur.execute("DELETE FROM USEarthquakes WHERE Magnitude==0")
+    
+    finally:
+        conn.close()
 
 
 # Problem 5
@@ -77,7 +132,19 @@ def prob5(db_file="students.db"):
     Returns:
         (list): the complete result set for the query.
     """
-    raise NotImplementedError("Problem 5 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            #clear out tables if they exist, build new ones
+            cur = conn.cursor()
+            cur.execute("SELECT SI.StudentID, CI.CourseName "
+                        "FROM CourseInfo AS CI, StudentInfo AS SI, "
+                        "StudentGrades AS SG "
+                        " WHERE SG.CourseID == CI.CourseID "
+                        "AND (SG.Grade == 'A' OR SG.Grade == 'A+');")
+            return cur.fetchall()
+ 
+    finally:
+        conn.close()
 
 
 # Problem 6
@@ -93,4 +160,33 @@ def prob6(db_file="earthquakes.db"):
     Returns:
         (float): The average magnitude of all earthquakes in the database.
     """
-    raise NotImplementedError("Problem 6 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            #get nineteenth and twentieth century data
+            cur = conn.cursor()
+            cur.execute("SELECT Magnitude FROM USEarthquakes WHERE Year BETWEEN 1800 AND 1899")
+            nineteenth_cent = [r[0] for r in cur.fetchall()]
+            cur.execute("SELECT Magnitude FROM USEarthquakes WHERE Year BETWEEN 1900 AND 1999")
+            twentieth_cent = [r[0] for r in cur.fetchall()]
+
+            p1 = plt.subplot(121)
+            p1.hist(nineteenth_cent)
+            p1.set_title("Nineteenth Century Magnitudes")
+            p2 = plt.subplot(122)
+            p2.hist(twentieth_cent)
+            p2.set_title("Twentieth Century Magnitudes")
+            plt.show()
+
+            #take average
+            cur.execute("SELECT AVG(Magnitude) FROM USEarthquakes")
+
+            #return average
+            return cur.fetchall()[0][0]
+
+    finally:
+        conn.close()
+    
+
+if __name__ == "__main__":
+    earthquakes_db()
+    prob6()
