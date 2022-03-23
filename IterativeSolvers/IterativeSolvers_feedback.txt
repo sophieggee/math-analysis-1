@@ -68,3 +68,40 @@ Comments:
 
 -------------------------------------------------------------------------------
 
+03/23/22 10:12
+
+Problem 1 (10 points):
+Score += 10
+
+Problem 2 (5 points):
+Score += 5
+
+Problem 3 (10 points):
+Score += 10
+
+Problem 4 (5 points):
+Score += 5
+
+Problem 5 (5 points):
+Score += 5
+
+Problem 6 (5 points):
+Score += 5
+
+Problem 7 (5 points):
+prob7() failed to return an optimal omega
+Score += 3
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 48/50 = 96.0%
+
+Great job!
+
+
+Comments:
+	Great job!
+
+-------------------------------------------------------------------------------
+
