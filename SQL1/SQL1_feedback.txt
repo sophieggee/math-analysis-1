@@ -1,0 +1,111 @@
+03/25/22 13:16
+
+Problem 1 (5 points):
+Student database missing table 'USEarthquakes'
+Score += 4
+
+Problem 2 (5 points):
+Score += 5
+
+Problem 3 (5 points):
+Score += 5
+
+Problem 4 (10 points):
+Score += 10
+
+Problem 5 (10 points):
+Result set is missing the following rows:
+	('Gilbert Chapman', 'History')
+	('Gilbert Chapman', 'Pottery')
+	('Rene Cross', 'Calculus')
+	('Mercedes Hall', 'English')
+	('Kristopher Tran', 'English')
+	('Cameron Kim', 'History')
+	('Sammy Burke', 'Calculus')
+Result set should not include the followingrows:
+	(401767594, 'History')
+	(678665086, 'History')
+	(553725811, 'History')
+	(886308195, 'History')
+	(103066521, 'History')
+	(821568627, 'History')
+	(206208438, 'History')
+	(341324754, 'History')
+	(262019426, 'History')
+	(622665098, 'History')
+	(401767594, 'Pottery')
+	(678665086, 'Pottery')
+	(553725811, 'Pottery')
+	(886308195, 'Pottery')
+	(103066521, 'Pottery')
+	(821568627, 'Pottery')
+	(206208438, 'Pottery')
+	(341324754, 'Pottery')
+	(262019426, 'Pottery')
+	(622665098, 'Pottery')
+	(401767594, 'Calculus')
+	(678665086, 'Calculus')
+	(553725811, 'Calculus')
+	(886308195, 'Calculus')
+	(103066521, 'Calculus')
+	(821568627, 'Calculus')
+	(206208438, 'Calculus')
+	(341324754, 'Calculus')
+	(262019426, 'Calculus')
+	(622665098, 'Calculus')
+	(401767594, 'English')
+	(678665086, 'English')
+	(553725811, 'English')
+	(886308195, 'English')
+	(103066521, 'English')
+	(821568627, 'English')
+	(206208438, 'English')
+	(341324754, 'English')
+	(262019426, 'English')
+	(622665098, 'English')
+	(401767594, 'English')
+	(678665086, 'English')
+	(553725811, 'English')
+	(886308195, 'English')
+	(103066521, 'English')
+	(821568627, 'English')
+	(206208438, 'English')
+	(341324754, 'English')
+	(262019426, 'English')
+	(622665098, 'English')
+	(401767594, 'History')
+	(678665086, 'History')
+	(553725811, 'History')
+	(886308195, 'History')
+	(103066521, 'History')
+	(821568627, 'History')
+	(206208438, 'History')
+	(341324754, 'History')
+	(262019426, 'History')
+	(622665098, 'History')
+	(401767594, 'Calculus')
+	(678665086, 'Calculus')
+	(553725811, 'Calculus')
+	(886308195, 'Calculus')
+	(103066521, 'Calculus')
+	(821568627, 'Calculus')
+	(206208438, 'Calculus')
+	(341324754, 'Calculus')
+	(262019426, 'Calculus')
+	(622665098, 'Calculus')
+Score += 0
+
+Problem 6 (10 points):
+PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: '_sol_temp.db'
+
+Code Quality (5 points):
+Score += 5
+
+Total score: 29/50 = 58.0%
+
+
+Comments:
+	Good job!
+
+-------------------------------------------------------------------------------
+
