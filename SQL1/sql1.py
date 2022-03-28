@@ -136,10 +136,11 @@ def prob5(db_file="students.db"):
         with sql.connect(db_file) as conn:
             #clear out tables if they exist, build new ones
             cur = conn.cursor()
-            cur.execute("SELECT SI.StudentID, CI.CourseName "
+            cur.execute("SELECT SI.StudentName, CI.CourseName "
                         "FROM CourseInfo AS CI, StudentInfo AS SI, "
                         "StudentGrades AS SG "
-                        " WHERE SG.CourseID == CI.CourseID "
+                        "WHERE SG.CourseID == CI.CourseID "
+                        "AND SI.StudentID == SG.StudentID"
                         "AND (SG.Grade == 'A' OR SG.Grade == 'A+');")
             return cur.fetchall()
  
