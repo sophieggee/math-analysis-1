@@ -1,10 +1,11 @@
 # solutions.py
 """Volume 1: SQL 2.
-<Name>
-<Class>
-<Date>
+<Sophie Gee>
+<Volume 1>
+<03/28/22>
 """
-
+import sqlite3 as sql
+import numpy as np
 
 # Problem 1
 def prob1(db_file="students.db"):
@@ -17,7 +18,19 @@ def prob1(db_file="students.db"):
     Returns:
         (list): a list of strings, each of which is a student name.
     """
-    raise NotImplementedError("Problem 1 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            #search for names of students who have "B" in any course
+            cur = conn.cursor()
+            cur.execute("SELECT SI.StudentName "
+                        "FROM StudentInfo AS SI INNER JOIN "
+                        "StudentGrades AS SG "
+                        "ON SI.StudentID == SG.StudentID "
+                        "WHERE SG.Grade == 'B';")
+            return [c[0] for c in cur.fetchall()]
+ 
+    finally:
+        conn.close()
 
 
 # Problem 2
@@ -33,7 +46,23 @@ def prob2(db_file="students.db"):
     Returns:
         (list): the complete result set for the query.
     """
-    raise NotImplementedError("Problem 2 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            #query the table for name, major, and grade and create an inner join 
+            # and outer join table with the course name as Calculus
+            cur = conn.cursor()
+            cur.execute("SELECT SI.StudentName, MI.MajorName, SG.Grade "
+                        "FROM StudentInfo AS SI INNER JOIN StudentGrades as SG, CourseInfo as CI "
+                        "ON SI.STudentId == SG.StudentID "
+                        "AND Sg.CourseID == CI.CourseID "
+                        "LEFT OUTER JOIN MajorInfo as MI "
+                        "ON SI.MajorID == MI.MajorID "
+                        "WHERE CI == 'Calculus';").fetchall()
+            return [c[0] for c in cur.fetchall()]
+ 
+    finally:
+        conn.close()
+    
 
 
 # Problem 3
@@ -47,8 +76,19 @@ def prob3(db_file="students.db"):
     Returns:
         (list): a list of strings, each of which is a course name.
     """
-    raise NotImplementedError("Problem 3 Incomplete")
-
+    try:
+        with sql.connect(db_file) as conn:
+            #query the table for coursenames and create an inner join 
+            # where the count is greater than or equal to 5 for the number of students in the course
+            cur = conn.cursor()
+            course_num = cur.execute("SELECT CI.CourseName "
+                        "FROM CourseInfo AS CI INNER JOIN StudentGrades AS SG "
+                        "ON SG.CourseID == CI.CourseID "
+                        "GROUP BY CI.CourseName "
+                        "HAVING COUNT(*) >= 5;").fetchall()
+            return [c[0] for c in course_num]
+    finally:
+        conn.close()
 
 # Problem 4
 def prob4(db_file="students.db"):
@@ -62,7 +102,18 @@ def prob4(db_file="students.db"):
     Returns:
         (list): the complete result set for the query.
     """
-    raise NotImplementedError("Problem 4 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            #query the table for coursenames and left outer join to include none majors and count how many students in each major
+            cur = conn.cursor()
+            major_num = cur.execute("SELECT MI.MajorName, COUNT(*) AS num_students "   # Alias.
+                    "FROM StudentInfo AS SI LEFT OUTER JOIN MajorInfo AS MI "
+                    "ON MI.MajorID == SI.MajorID "
+                    "GROUP BY SI.MajorID "
+                    "ORDER BY num_students DESC, MI.MajorName ASC;").fetchall()
+            return major_num
+    finally:
+        conn.close()
 
 
 # Problem 5
@@ -76,7 +127,17 @@ def prob5(db_file="students.db"):
     Returns:
         (list): the complete result set for the query.
     """
-    raise NotImplementedError("Problem 5 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            #query the table for coursenames and left outer join to eventually gather only C last names
+            cur = conn.cursor()
+            results = cur.execute("SELECT SI.StudentName, MI.MajorName FROM StudentInfo "
+            "AS SI LEFT OUTER JOIN MajorInfo as MI "
+            "ON MI.MajorID == SI.MajorID "
+            "WHERE StudentName LIKE '% C%';").fetchall()
+            return results
+    finally:
+        conn.close()
 
 
 # Problem 6
@@ -98,4 +159,34 @@ def prob6(db_file="students.db"):
     Returns:
         (list): the complete result set for the query.
     """
-    raise NotImplementedError("Problem 6 Incomplete")
+    try:
+        with sql.connect(db_file) as conn:
+            cur = conn.cursor()
+            #change each letter grade to a number in terms of GPA, and output GPA
+            cur.execute("SELECT name, COUNT(gp), AVG(gp) AS gpa "
+                        "FROM ( "
+                            "SELECT SI.StudentName as name, CASE SG.Grade "
+                                "WHEN 'A+' THEN 4.0 "
+                                "WHEN 'A' THEN 4.0 "
+                                "WHEN 'A-' THEN 3.7 "
+                                "WHEN 'B+' THEN 3.4 "
+                                "WHEN 'B' THEN 3.0 "
+                                "WHEN 'B-' THEN 2.7 "
+                                "WHEN 'C+' THEN 2.4 "
+                                "WHEN 'C' THEN 2.0 "
+                                "WHEN 'C-' THEN 1.7 "
+                                "WHEN 'D+' THEN 1.4 "
+                                "WHEN 'D' THEN 1.0 "
+                                "WHEN 'D-' THEN 0.7 "
+                                "ELSE 0 END AS gp "
+                            "FROM StudentGrades AS SG INNER JOIN "
+                            "StudentInfo as SI "
+                            "ON SI.StudentID == SG.StudentID) "
+                        "GROUP BY name "
+                        "ORDER BY gpa DESC;")
+            return cur.fetchall()
+    
+    finally:
+        conn.close()
+if __name__ == "__main__":
+    print(prob6())
