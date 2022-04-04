@@ -51,14 +51,15 @@ def prob2(db_file="students.db"):
             #query the table for name, major, and grade and create an inner join 
             # and outer join table with the course name as Calculus
             cur = conn.cursor()
-            cur.execute("SELECT SI.StudentName, MI.MajorName, SG.Grade "
-                        "FROM StudentInfo AS SI INNER JOIN StudentGrades as SG, CourseInfo as CI "
-                        "ON SI.STudentId == SG.StudentID "
-                        "AND Sg.CourseID == CI.CourseID "
-                        "LEFT OUTER JOIN MajorInfo as MI "
-                        "ON SI.MajorID == MI.MajorID "
-                        "WHERE CI == 'Calculus';").fetchall()
-            return [c[0] for c in cur.fetchall()]
+            current = cur.execute("SELECT SI.StudentName, MI.MajorName, SG.Grade "
+                 "FROM StudentInfo AS SI INNER JOIN StudentGrades AS SG, "
+                 "CourseInfo CI "
+                 "ON SI.StudentID == SG.StudentID "
+                 "AND SG.CourseID == CI.CourseID "
+                 "LEFT OUTER JOIN MajorInfo as MI "
+                 "ON SI.MajorID == MI.MajorID "
+                 "WHERE CI.CourseName == 'Calculus';").fetchall()
+            return current
  
     finally:
         conn.close()
@@ -189,4 +190,4 @@ def prob6(db_file="students.db"):
     finally:
         conn.close()
 if __name__ == "__main__":
-    print(prob6())
+    print(prob2())
